@@ -8,6 +8,39 @@ const baseHeight = 600;
 // スコア
 let score = 0;
 const scoreEl = document.getElementById("score"); // 先に取得
+let bgCanvas = null;
+let bgCtx = null;
+
+//背景生成
+function makeBackground() {
+  bgCanvas = document.createElement("canvas");
+  bgCtx = bgCanvas.getContext("2d");
+
+  bgCanvas.width = canvas.width;
+  bgCanvas.height = canvas.height;
+
+  const layerHeight = 36; // 階段の高さ（あなたの指定通り）
+
+  // ベース色（最浅層）
+  let hue = 200;  // 青より
+  let sat = 75;   // 少し彩度高め
+  let light = 90; // 明るさ
+
+  // 各層ごとの変化量
+  const hueShift = -1.2; // 緑方向へ（青→緑）
+  const satShift = +2.0; // 彩度↑
+  const lightShift = -3.0; // 明度↓
+
+  for (let y = 0; y < bgCanvas.height; y += layerHeight) {
+    const currentHue = hue + (y / layerHeight) * hueShift;
+    const currentSat = sat + (y / layerHeight) * satShift;
+    const currentLight = light + (y / layerHeight) * lightShift;
+
+    bgCtx.fillStyle = `hsl(${currentHue}, ${currentSat}%, ${currentLight}%)`;
+    bgCtx.fillRect(0, y, bgCanvas.width, layerHeight);
+  }
+}
+
 
 // キャンバスサイズを画面いっぱいに設定し、スケールを計算
 let scale = 1;
@@ -16,7 +49,7 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 
   scale = Math.min(canvas.width / baseWidth, canvas.height / baseHeight);
-
+  
   // スコアフォント更新
   if (scoreEl) {
     let size = 36 * scale;       // 基準36px × scale
@@ -24,16 +57,33 @@ function resizeCanvas() {
     size = Math.min(60, size);   // 最大60px
     scoreEl.style.fontSize = `${size}px`;
   }
+  // ★ 背景を再生成
+  makeBackground();
 }
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
 // 画像ロード
 const playerImg = new Image();
-playerImg.src = "swimmy.gif";
-
 const redImg = new Image();
+
+// ---------------------------
+// 画像読み込み簡易チェック
+let loadedCount = 0;
+function checkLoaded() {
+  loadedCount++;
+  if (loadedCount === 2) {
+    // 両方読み込み完了でゲーム開始
+    loop();
+  }
+}
+playerImg.onload = checkLoaded;
+redImg.onload = checkLoaded;
+
+// src の代入は onload 設定後
+playerImg.src = "swimmy.gif";
 redImg.src = "red.gif";
+
 
 // プレイヤークラス
 class Player {
@@ -97,7 +147,7 @@ const maxFollowers = 30; // 最大追従数（動作確認用）
 
 // 赤い魚スポーン
 let spawnTimer = 0;
-const spawnInterval = 0.5;
+const spawnInterval = 5;
 
 function spawnRedFish() {
   redFishes.push(new RedFish(redImg));
@@ -137,9 +187,10 @@ canvas.addEventListener("touchmove", e => {
 function loop() {
   requestAnimationFrame(loop);
 
-  // 背景
-  ctx.fillStyle = "#87ceeb";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+// 背景（綺麗な階層グラデーション）
+if (bgCanvas) {
+  ctx.drawImage(bgCanvas, 0, 0, canvas.width, canvas.height);
+}
 
   // プレイヤー移動
   player.dx = 0;
@@ -196,10 +247,3 @@ function loop() {
     spawnTimer = 0;
   }
 }
-
-// 画像ロード後に開始
-playerImg.onload = () => {
-  redImg.onload = () => {
-    loop();
-  };
-};
