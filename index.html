@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ヘルスイミー</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%; /* 追加 */
+      touch-action: none; /* スマホのスクロール防止 */
+    }
+    canvas {
+      display: block;
+      width: 100%;   /* 追加：表示サイズを画面いっぱいに */
+      height: 100%;  /* 追加：表示サイズを画面いっぱいに */
+      background-color: #87ceeb; /* 水色 */
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 36px;
+      color: #fff;
+      font-family: sans-serif;
+      text-shadow: 1px 1px 2px #000;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>
