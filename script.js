@@ -43,7 +43,7 @@ class Player {
     this.height = 36;
     this.x = canvas.width / 4;
     this.y = canvas.height / 2;
-    this.speed = 5;
+    this.speed = 6;
     this.dx = 0;
     this.dy = 0;
   }
@@ -73,7 +73,7 @@ class RedFish {
     this.height = 36;
     this.x = canvas.width + 20;
     this.y = Math.random() * (canvas.height - this.height * scale);
-    this.baseSpeed = 3 + Math.random() * 2;
+    this.baseSpeed = 4 + Math.random() * 2;
   }
 
   update() {
@@ -97,7 +97,7 @@ const maxFollowers = 30; // 最大追従数（動作確認用）
 
 // 赤い魚スポーン
 let spawnTimer = 0;
-const spawnInterval = 10;
+const spawnInterval = 0.5;
 
 function spawnRedFish() {
   redFishes.push(new RedFish(redImg));
