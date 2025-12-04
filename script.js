@@ -43,7 +43,7 @@ class Player {
     this.height = 36;
     this.x = canvas.width / 4;
     this.y = canvas.height / 2;
-    this.speed = 6;
+    this.speed = 8;
     this.dx = 0;
     this.dy = 0;
   }
