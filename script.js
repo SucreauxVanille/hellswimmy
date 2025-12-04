@@ -19,7 +19,7 @@ function makeBackground() {
   bgCanvas.width = canvas.width;
   bgCanvas.height = canvas.height;
 
-  const layerHeight = 36; // 階段の高さ（あなたの指定通り）
+  const layerHeight = 48; // 階段の高さ（あなたの指定通り）
 
   // ベース色（最浅層）
   let hue = 200;  // 青より
@@ -29,7 +29,7 @@ function makeBackground() {
   // 各層ごとの変化量
   const hueShift = -1.2; // 緑方向へ（青→緑）
   const satShift = +2.0; // 彩度↑
-  const lightShift = -2.0; // 明度↓
+  const lightShift = -1.5; // 明度↓
 
   for (let y = 0; y < bgCanvas.height; y += layerHeight) {
     const currentHue = hue + (y / layerHeight) * hueShift;
