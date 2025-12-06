@@ -19,7 +19,7 @@ function makeBackground() {
   bgCanvas.width = canvas.width;
   bgCanvas.height = canvas.height;
 
-  const layerHeight = 48; // 階段の高さ（あなたの指定通り）
+  const layerHeight = 48; // 階段の高さ
 
   // ベース色（最浅層）
   let hue = 200;  // 青より
@@ -93,7 +93,7 @@ class Player {
     this.height = 36;
     this.x = canvas.width / 4;
     this.y = canvas.height / 2;
-    this.speed = 8;
+    this.speed = 10;
     this.dx = 0;
     this.dy = 0;
   }
@@ -143,7 +143,7 @@ class RedFish {
 const player = new Player(playerImg);
 const redFishes = [];
 const followers = []; // スネーク型の仲間リスト
-const maxFollowers = 30; // 最大追従数（動作確認用）
+const maxFollowers = 50; // 最大追従数
 
 // 赤い魚スポーン
 let spawnTimer = 0;
